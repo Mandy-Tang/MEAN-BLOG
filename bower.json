@@ -1,0 +1,26 @@
+{
+  "name": "MEAN-BLOG",
+  "description": "This is my tech blog based on MEAN",
+  "main": "./views/index.ejs",
+  "authors": [
+    "mandy <189658646@qq.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "BLOG"
+  ],
+  "homepage": "https://github.com/Mandy-Tang/MEAN-BLOG",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "./public/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "jquery": "^2.2.2"
+  }
+}
