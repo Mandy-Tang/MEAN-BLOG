@@ -156,7 +156,7 @@ module.exports = function (grunt) {
                         });
                     },
                     env: {
-                        PORT: '5601'
+                        PORT: '3000'
                     },
                     cwd: '<%= root %>',
                     watch: '<%= serverFiles %>',
