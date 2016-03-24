@@ -21,6 +21,12 @@
   ],
   "dependencies": {
     "bootstrap": "^3.3.6",
-    "jquery": "^2.2.2"
+    "jquery": "^2.2.2",
+    "font-awesome": "fontawesome#^4.5.0",
+    "animate.css": "^3.5.1",
+    "angular": "^1.5.2",
+    "angular-bootstrap": "^1.2.5",
+    "angular-ui-router": "^0.2.18",
+    "angular-cookies": "^1.5.2"
   }
 }

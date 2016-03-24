@@ -10,6 +10,14 @@
 
 module.exports = function (app) {
   app.get('/', function (req, res) {
-    res.render('index', { title: 'Express'})
-  })
-}
+    res.redirect('/index');
+  });
+
+  app.get('/index', function (req, res) {
+    res.render('index', { title: 'MEAN-BLOG'});
+  });
+
+  app.get('/admin', function (req, res) {
+    res.render('admin', { title: 'MEAN-BLOG Admin System'})
+  });
+};
