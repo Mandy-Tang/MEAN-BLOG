@@ -1,6 +1,7 @@
 'use strict';
 (function () {
   function blogConfig($stateProvider) {
+    'ngInject';
     $stateProvider
       .state('app.blog', {
         abstract: true,

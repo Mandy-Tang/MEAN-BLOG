@@ -1,6 +1,8 @@
 'use strict';
 
+
 function appConfig($provide, $httpProvider, $stateProvider, $urlRouterProvider) {
+  'ngInject';
   // Intercept http calls.
   $provide.factory('ErrorHttpInterceptor', ['$q', function ($q) {
     function notifyError(rejection){

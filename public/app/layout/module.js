@@ -1,6 +1,7 @@
 "use strict";
 (function () {
   function layoutConfig($stateProvider, $urlRouterProvider) {
+    'ngInject';
     $stateProvider
       .state('app', {
         abstract: true,
