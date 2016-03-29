@@ -44,7 +44,8 @@ module.exports = function (grunt) {
       '<%= static %>/bower_components/angular/angular.min.js',
       '<%= static %>/bower_components/angular-cookies/angular-cookies.min.js',
       '<%= static %>/bower_components/angular-bootstrap/ui-bootstrap.min.js',
-      '<%= static %>/bower_components/angular-ui-router/release/angular-ui-router.min.js'
+      '<%= static %>/bower_components/angular-ui-router/release/angular-ui-router.min.js',
+      '<%= static %>/bower_components/metisMenu/dist/metisMenu.min.js',
     ],
     less: {
       dev: {
@@ -133,9 +134,9 @@ module.exports = function (grunt) {
     watch: {
       staticSide: {
         files: [
-          '<%= static %>/**/*',
           '<%= root %>/.rebooted',
-          '!<%= static %>/styles/less/*.less'
+          '<%= root %>/views/*',
+          '<%= static %>/**/*'
         ],
         options: {
           livereload: true

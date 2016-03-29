@@ -1,6 +1,6 @@
 'use strict';
 (function () {
-  function blogConfig($stateProvider) {
+  function dashboardConfig($stateProvider) {
     'ngInject';
     $stateProvider
       .state('app.dashboard', {
@@ -11,11 +11,11 @@
         views: {
           "content@app": {
             templateUrl: '/app/dashboard/index.html',
-            controller: 'dashboardCtrl'
+            //controller: 'dashboardCtrl'
           }
         }
       })
   }
   angular.module('app.dashboard', ['ui.router'])
-    .config(blogConfig);
+    .config(dashboardConfig);
 })();

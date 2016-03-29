@@ -14,7 +14,13 @@ module.exports = function (app) {
   });
 
   app.get('/index', function (req, res) {
-    res.render('index', { title: 'MEAN-BLOG'});
+    if (app.get('env') === 'development') {
+      res.render('index_dev', { title: 'MEAN-BLOG'});
+    }
+    else {
+      res.render('index', { title: 'MEAN-BLOG'});
+    }
+
   });
 
   app.get('/admin', function (req, res) {

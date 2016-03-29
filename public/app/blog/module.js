@@ -17,7 +17,7 @@
         views: {
           "content@app": {
             templateUrl: '/app/blog/index.html',
-            controller: 'javascriptCtrl'
+            //controller: 'javascriptCtrl'
           }
         }
       })
@@ -29,7 +29,7 @@
         views: {
           "content@app": {
             templateUrl: '/app/blog/index.html',
-            controller: 'angularjsCtrl'
+            //controller: 'angularjsCtrl'
           }
         }
       })
@@ -41,7 +41,7 @@
         views: {
           "content@app": {
             templateUrl: '/app/blog/index.html',
-            controller: 'nodejsCtrl'
+            //controller: 'nodejsCtrl'
           }
         }
       })
@@ -53,7 +53,7 @@
         views: {
           "content@app": {
             templateUrl: '/app/css/index.html',
-            controller: 'cssCtrl'
+            //controller: 'cssCtrl'
           }
         }
       })
@@ -65,7 +65,7 @@
         views: {
           "content@app": {
             templateUrl: '/app/blog/index.html',
-            controller: 'pythontCtrl'
+            //controller: 'pythontCtrl'
           }
         }
       });

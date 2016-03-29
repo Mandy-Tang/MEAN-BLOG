@@ -1,8 +1,8 @@
 'use strict';
 
-var appConfig = window.appConfig || {};
+var apiConfig = window.apiConfig || {};
 
-appConfig.API_ROOT_URL = '/api';
-appConfig.POST_URL = '/post';
+apiConfig.API_ROOT_URL = '/api';
+apiConfig.POST_URL = apiConfig.API_ROOT_URL + '/post';
 
-window.appConfig = appConfig;
+window.apiConfig = apiConfig;
