@@ -29,6 +29,12 @@ node_modules
 # Bower components directory
 public/bower_components
 
+# build components directory
+public/build
+
+# reboot file
+.rebooted
+
 # Optional npm cache directory
 .npm
 
