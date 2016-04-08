@@ -25,7 +25,13 @@ module.exports = function (grunt) {
       '<%= app %>/**/*.js'
     ],
     lessFiles: [
-      '<%= static %>/less/**/*.less'
+      '<%= static %>/styles/less/**/*.less'
+    ],
+    publicCssFiles: [
+      '<%= static %>/styles/css/*.css',
+      '<%= static %>/styles/css/!*.min.css',
+      '<%= static %>/styles/css/!public.css',
+      '<%= static %>/styles/css/!bootstrap.css',
     ],
     serverFiles: [
       '<%= root %>/bin/www',
@@ -48,10 +54,48 @@ module.exports = function (grunt) {
       '<%= static %>/bower_components/metisMenu/dist/metisMenu.min.js',
     ],
     less: {
-      dev: {
-        files: {
-          '<%= static %>/styles/style.css': '<%= static %>/styles/less/style.less'
-        }
+      bst: {
+        options: {
+          strictMath: true,
+          sourceMap: true,
+          outputSourceFiles: true,
+          sourceMapUrl: 'bootstrap.css.map',
+          sourceMapFilename: 'public/styles/css/bootstrap.css.map'
+        },
+        src: 'public/styles/less/bootstrap.less',
+        dest: 'public/styles/css/bootstrap.css'
+      }
+    },
+    autoprefixer: {
+      bst: {
+        options: {
+          map: true
+        },
+        src: '<%= static %>/styles/css/bootstrap.css'
+      }
+    },
+    csscomb: {
+      options: {
+        config: 'public/styles/less/.csscomb.json'
+      },
+      bst: {
+        src: '<%= static %>/styles/css/bootstrap.css',
+        dest: '<%= static %>/styles/css/bootstrap.css'
+      }
+    },
+    cssmin: {
+      options: {
+        keepSpecialComments: '*',
+        sourceMap: true,
+        advanced: false
+      },
+      bst: {
+        src: 'public/styles/css/bootstrap.css',
+        dest: 'public/styles/css/bootstrap.min.css'
+      },
+      public: {
+        src: ['public>/styles/css/font-awesome.css'],
+        dest: 'public/styles/css/public.min.css'
       }
     },
     jshint: {
@@ -85,6 +129,7 @@ module.exports = function (grunt) {
     concat: {
       options: {
         separator: '\n;\n',
+        sourceMap: true,
         stripBanners: true,
         banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
         '<%= grunt.template.today("yyyy-mm-dd") %> */',
@@ -104,25 +149,19 @@ module.exports = function (grunt) {
       },
       app: {
         files: {
-          '<%= static %>/build/app.annotate.js': ['<%= static %>/build/app.js']
+          '<%= static %>/build/app.js': ['<%= static %>/build/app.js']
         }
-      }
-    },
-    ngtemplates: {
-      app: {
-        options: {
-          prefix: '/',
-          append: true
-        },
-        cwd: 'public',
-        src: 'app/**/*.html',
-        dest: 'public/build/app.annotate.js'
       }
     },
     uglify: {
       app: {
+        options: {
+          sourceMap: true,
+          sourceMapIncludeSources: true,
+          sourceMapIn: '<%= static %>/build/app.js.map'
+        },
         files: {
-          '<%= static %>/build/app.min.js': ['<%= static %>/build/app.annotate.js']
+          '<%= static %>/build/app.min.js': ['<%= static %>/build/app.js']
         }
       },
       vendor: {
@@ -131,16 +170,48 @@ module.exports = function (grunt) {
         }
       }
     },
+    ngtemplates: {
+      app: {
+        options: {
+          prefix: '/',
+          htmlmin: {
+            collapseBooleanAttributes:      true,
+            collapseWhitespace:             true,
+            removeAttributeQuotes:          true,
+            removeComments:                 true, // Only if you don't use comment directives!
+            removeEmptyAttributes:          true,
+            removeRedundantAttributes:      true,
+            removeScriptTypeAttributes:     true,
+            removeStyleLinkTypeAttributes:  true
+          }
+        },
+        cwd: 'public',
+        src: 'app/**/*.html',
+        dest: 'public/build/templates.js'
+      }
+    },
     watch: {
       staticSide: {
         files: [
           '<%= root %>/.rebooted',
           '<%= root %>/views/*',
-          '<%= static %>/**/*'
+          '<%= static %>/app/**/*',
+          '<%= static %>/styles/css/bootstrap.min.css',
+          '<%= static %>/styles/css/public.min.css'
         ],
         options: {
           livereload: true
         }
+      },
+      'css-bst': {
+        files: [
+          '<%= lessFiles %>'
+        ],
+        task: ['css-bst']
+      },
+      'css-public': {
+        files: ['<%= publicCssFiles %>'],
+        task: ['css-public']
       }
     },
     nodemon: {
@@ -198,6 +269,9 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-jscs');
   grunt.loadNpmTasks('grunt-contrib-less');
+  grunt.loadNpmTasks('grunt-autoprefixer');
+  grunt.loadNpmTasks('grunt-csscomb');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-angular-templates');
@@ -205,7 +279,13 @@ module.exports = function (grunt) {
 
 
   grunt.registerTask('hint', ['jshint:source', 'jscs:source']);
-  grunt.registerTask('dev', ['concurrent', 'watch']);
+  grunt.registerTask('dev', ['all', 'concurrent', 'watch']);
   grunt.registerTask('default', ['dev']);
-  grunt.registerTask('build', ['less', 'concat', 'ngAnnotate:app', 'ngtemplates', 'uglify:app']);
+  grunt.registerTask('css', ['less:bst', 'autoprefixer:bst', 'csscomb:bst', 'cssmin:bst', 'cssmin:public']);
+  grunt.registerTask('css-bst', ['less:bst', 'cssmin:bst']);
+  grunt.registerTask('css-public', ['cssmin:public']);
+  grunt.registerTask('build', ['concat', 'ngAnnotate:app', 'ngtemplates:app', 'uglify']);
+  grunt.registerTask('build-app', ['concat:app', 'ngAnnotate:app', 'uglify:app', 'ngtemplates:app']);
+  grunt.registerTask('build-vendor', ['concat:vendor', 'uglify:vendor']);
+  grunt.registerTask('all', ['css', 'build']);
 };
