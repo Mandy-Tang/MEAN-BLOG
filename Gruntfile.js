@@ -56,11 +56,11 @@ module.exports = function (grunt) {
           strictMath: true,
           sourceMap: true,
           //outputSourceFiles: true,
-          sourceMapUrl: '/styles/css/',
-          sourceMapFilename: 'bootstrap.css.map'
+          sourceMapURL: 'bootstrap.css.map',
+          sourceMapFilename: '<%= static %>/styles/css/bootstrap.css.map'
         },
-        src: 'public/styles/less/bootstrap.less',
-        dest: 'public/styles/css/bootstrap.css'
+        src: '<%= static %>/styles/less/bootstrap.less',
+        dest: '<%= static %>/styles/css/bootstrap.css'
       }
     },
     autoprefixer: {
@@ -73,7 +73,7 @@ module.exports = function (grunt) {
     },
     csscomb: {
       options: {
-        config: 'public/styles/less/.csscomb.json'
+        config: '<%= static %>/styles/less/.csscomb.json'
       },
       bst: {
         src: '<%= static %>/styles/css/bootstrap.css',
@@ -87,12 +87,12 @@ module.exports = function (grunt) {
         advanced: false
       },
       bst: {
-        src: 'public/styles/css/bootstrap.css',
-        dest: 'public/styles/css/bootstrap.min.css'
+        src: '<%= static %>/styles/css/bootstrap.css',
+        dest: '<%= static %>/styles/css/bootstrap.min.css'
       },
       'public': {
         src: '<%= publicCssFiles %>',
-        dest: 'public/styles/css/public.min.css'
+        dest: '<%= static %>/styles/css/public.min.css'
       }
     },
     jshint: {
