@@ -28,10 +28,7 @@ module.exports = function (grunt) {
       '<%= static %>/styles/less/**/*.less'
     ],
     publicCssFiles: [
-      '<%= static %>/styles/css/*.css',
-      '<%= static %>/styles/css/!*.min.css',
-      '<%= static %>/styles/css/!public.css',
-      '<%= static %>/styles/css/!bootstrap.css',
+      '<%= static %>/styles/css/font-awesome.css'
     ],
     serverFiles: [
       '<%= root %>/bin/www',
@@ -58,9 +55,9 @@ module.exports = function (grunt) {
         options: {
           strictMath: true,
           sourceMap: true,
-          outputSourceFiles: true,
-          sourceMapUrl: 'bootstrap.css.map',
-          sourceMapFilename: 'public/styles/css/bootstrap.css.map'
+          //outputSourceFiles: true,
+          sourceMapUrl: '/styles/css/',
+          sourceMapFilename: 'bootstrap.css.map'
         },
         src: 'public/styles/less/bootstrap.less',
         dest: 'public/styles/css/bootstrap.css'
@@ -93,8 +90,8 @@ module.exports = function (grunt) {
         src: 'public/styles/css/bootstrap.css',
         dest: 'public/styles/css/bootstrap.min.css'
       },
-      public: {
-        src: ['public>/styles/css/font-awesome.css'],
+      'public': {
+        src: '<%= publicCssFiles %>',
         dest: 'public/styles/css/public.min.css'
       }
     },
@@ -204,15 +201,22 @@ module.exports = function (grunt) {
         }
       },
       'css-bst': {
-        files: [
-          '<%= lessFiles %>'
-        ],
-        task: ['css-bst']
+        files: '<%= lessFiles %>',
+        tasks: ['css-bst']
       },
       'css-public': {
-        files: ['<%= publicCssFiles %>'],
-        task: ['css-public']
-      }
+        files: '<%= publicCssFiles %>',
+        tasks: ['css-public']
+      },
+      // uncomment while in production environment
+      //'build-app': {
+      //  files: '<%= appFiles %>',
+      //  tasks: ['build-app']
+      //},
+      //'build-vendor': {
+      //  files: '<%= vendorFiles %>',
+      //  tasks: ['build-vendor']
+      //}
     },
     nodemon: {
       dev: {
@@ -279,8 +283,6 @@ module.exports = function (grunt) {
 
 
   grunt.registerTask('hint', ['jshint:source', 'jscs:source']);
-  grunt.registerTask('dev', ['all', 'concurrent', 'watch']);
-  grunt.registerTask('default', ['dev']);
   grunt.registerTask('css', ['less:bst', 'autoprefixer:bst', 'csscomb:bst', 'cssmin:bst', 'cssmin:public']);
   grunt.registerTask('css-bst', ['less:bst', 'cssmin:bst']);
   grunt.registerTask('css-public', ['cssmin:public']);
@@ -288,4 +290,7 @@ module.exports = function (grunt) {
   grunt.registerTask('build-app', ['concat:app', 'ngAnnotate:app', 'uglify:app', 'ngtemplates:app']);
   grunt.registerTask('build-vendor', ['concat:vendor', 'uglify:vendor']);
   grunt.registerTask('all', ['css', 'build']);
+  grunt.registerTask('dev', ['css-bst', 'css-public', 'build', 'concurrent']);
+  grunt.registerTask('default', ['dev']);
+
 };
