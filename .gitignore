@@ -29,9 +29,6 @@ node_modules
 # Bower components directory
 public/bower_components
 
-# build components directory
-public/build
-
 # reboot file
 .rebooted
 
@@ -43,3 +40,14 @@ public/build
 
 # IDE information directory
 .idea
+
+# build components directory
+public/build
+
+# css build file
+public/styles/css/bootstrap.min.css
+public/styles/css/bootstrap.min.css.map
+public/styles/css/bootstrap.css
+public/styles/css/bootstrap.css.map
+public/styles/css/public.min.css
+public/styles/css/public.min.css.map
